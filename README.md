@@ -2,15 +2,7 @@
 ## Installation
 On the host create folders for volumes and add permissions for volume
 ```sh
-mkdir data
-cd data
-mkdir files
-mkdir sql
-mkdir secrets
-cd secrets
-mkdir certbot
-mkdir letsencrypt
-cd ../..
+mkdir data && cd data && mkdir files && mkdir sql && mkdir secrets && cd secrets && mkdir certbot && mkdir letsencrypt && cd ../..
 sudo chown -R 1000:1000 ./data/files
 sudo chmod -R 755 ./data/files
 ```
@@ -18,10 +10,24 @@ Create password for basic auth.
 ```sh
 echo "your-secret-password" > ./admin_password.txt
 ```
-Build containers and run them
+Build containers and run them(you need to have docker buildx)
 ```sh
 docker compose build
 docker compose up
+```
+If you need to have delete all sql+fiels
+```sh
+rm ./data/sql/database.db
+rm ./data/files/*
+```
+## HTML minifier installation
+Frontend uses this long time compiling image. For convenience it pushed into docker hub and frontend dockerfile uses image from docker hub. But if you need to recompile it.
+```sh
+cd frontend
+docker build -f Dockerfile.base -t denisalik/rust-html-minifier-builder:1.88-alpine -t denisalik/rust-html-minifier-builder:latest .
+docker login
+docker push denisalik/rust-html-minifier-builder:1.88-alpine
+docker push denisalik/rust-html-minifier-builder:latest
 ```
 ## Result
 Check deployed version on [deployed site](https://yout-low-bandwidth-download-app.duckdns.org)
@@ -36,3 +42,6 @@ Check deployed version on [deployed site](https://yout-low-bandwidth-download-ap
 * Backend track state of the download
 * Storing information about database of files backend uses sqlite3
 * Cron every day to delete files at 4:00 and 3:00 to delete rows that were deleted previously at 4:00.
+## TODO
+* https support
+* linter for python

@@ -1,0 +1,11 @@
+FROM rust:1.88-alpine as rust-builder
+#minify html+js+css in my frontend page
+
+RUN apk update
+RUN apk add --no-cache musl-dev
+
+WORKDIR /build
+
+COPY Cargo.toml .
+COPY main.rs ./src/main.rs
+RUN cargo build --release
