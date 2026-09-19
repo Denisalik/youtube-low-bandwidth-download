@@ -1,0 +1,12 @@
+[project]
+name = "youtube-low-bandwidth-download-application"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "apscheduler>=3.11.3",
+    "fastapi[standard-no-fastapi-cloud-cli]>=0.141.1",
+    "sqlmodel>=0.0.42",
+    "yt-dlp>=2026.8.19",
+]

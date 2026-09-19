@@ -1,0 +1,44 @@
+---
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: production
+      secrets:
+        - admin_password
+    restart: unless-stopped
+    depends_on:
+      - backend
+    volumes:
+      - ./data/files:/data/files:ro
+      - ./data/secrets/certbot:/var/www/certbot
+      - ./data/secrets/letsencrypt:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+  
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./data/secrets/webroot:/var/www/certbot
+  #     - ./data/secrets/letsencrypt:/etc/letsencrypt
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done;'"
+
+
+  backend:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      target: production
+    restart: unless-stopped
+    volumes:
+      - ./data/files:/data/files
+      - ./data/sql:/data/sql
+    ports:
+      - "8000"
+secrets:
+  admin_password:
+    file: ./admin_password.txt
