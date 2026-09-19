@@ -1,0 +1,14 @@
+[package]
+name = "html-minifier-tool"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+minify-html = "0.18.1"
+
+[profile.release]
+opt-level = "z"       # optimize for size, not speed
+lto = true            # link-time optimization (slower build, smaller/faster binary)
+strip = true          # remove debug symbols
+codegen-units = 1     # fewer, larger compilation units — better optimization, slower build
+panic = "abort"       # no unwinding on panic — smaller binary, no catch_unwind

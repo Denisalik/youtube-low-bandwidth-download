@@ -10,3 +10,4 @@ wheels/
 .venv
 
 admin_password.txt
+data/
