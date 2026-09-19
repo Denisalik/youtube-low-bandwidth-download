@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, BackgroundTasks, HTTPException
-from sqlmodel import select
+from sqlmodel import col, select
 
 from src.db import SessionDep, download_file
 from src.entity.file import File, CreateFile
@@ -13,7 +13,8 @@ router = APIRouter(
 
 @router.get('', response_model=list[File])
 def get_files(session: SessionDep):
-    return session.exec(select(File)).all()
+    statement = select(File).order_by(col(File.id).desc())
+    return session.exec(statement).all()
 
 @router.get('/{id}')
 def get_file(id: int, session: SessionDep):

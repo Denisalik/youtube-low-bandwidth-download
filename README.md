@@ -15,6 +15,10 @@ Build containers and run them(you need to have docker buildx)
 docker compose build
 docker compose up
 ```
+Or if you want to change secrets(admin_password)
+```sh
+docker compose build --no-cache
+```
 If you need to have delete all sql+fiels
 ```sh
 rm ./data/sql/database.db
