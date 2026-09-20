@@ -33,6 +33,11 @@ docker login
 docker push denisalik/rust-html-minifier-builder:1.88-alpine
 docker push denisalik/rust-html-minifier-builder:latest
 ```
+## HTTPS certificates:
+```sh
+docker compose up -d --build
+docker compose run --rm certbot certonly --webroot -w /var/www/certbot -d yout-low-bandwidth-download-app.duckdns.org -d www.yout-low-bandwidth-download-app.duckdns.org --agree-tos -m <your-mail@mail_domain.extension> --no-eff-email
+```
 ## Result
 Check deployed version on [deployed site](https://yout-low-bandwidth-download-app.duckdns.org)
 ## Features
