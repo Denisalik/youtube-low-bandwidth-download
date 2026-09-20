@@ -14,6 +14,7 @@ services:
       - ./data/files:/data/files:ro
       - ./data/secrets/certbot:/var/www/certbot
       - ./data/secrets/letsencrypt:/etc/letsencrypt
+    network_mode: host
     ports:
       - "80:80"
       - "443:443"
@@ -37,7 +38,7 @@ services:
       - ./data/files:/data/files
       - ./data/sql:/data/sql
     ports:
-      - "8000"
+      - "127.0.0.1:8000:8000"
 secrets:
   admin_password:
     file: ./admin_password.txt
