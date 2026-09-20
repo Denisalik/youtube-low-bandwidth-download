@@ -44,6 +44,14 @@ class CreateFile(FileBase):
     @staticmethod
     def is_valid_format(value: str) -> bool:
         return value in ['audio', '720', '360']
+    
+    @staticmethod
+    def is_valid_state(value: str) -> bool:
+        try:
+            FileState(value)
+            return True
+        except ValueError:
+            return False
 
 
 class File(FileBase, table=True):

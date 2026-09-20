@@ -15,10 +15,10 @@ services:
       - ./data/secrets/certbot:/var/www/certbot
       - ./data/secrets/letsencrypt:/etc/letsencrypt
     network_mode: host
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+    # ports:
+      # - "80:80"
+      # - "443:443"
+      # - "443:443/udp"
   
   certbot:
     image: certbot/certbot

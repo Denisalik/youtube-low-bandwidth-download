@@ -28,6 +28,8 @@ def create_file(create_file: CreateFile, session: SessionDep):
     file = File(url=create_file.url)
     if CreateFile.is_valid_format(create_file.format):
         file.format = create_file.format
+    if CreateFile.is_valid_state(create_file.state):
+        file.state = create_file.state
     session.add(file)
     session.commit()
     session.refresh(file)

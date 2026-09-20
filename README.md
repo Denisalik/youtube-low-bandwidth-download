@@ -1,4 +1,5 @@
 # Low-Bandwidth youtube downloader web application
+Simple Web application that downloads youtube videos and shares with client them.
 ## Installation
 On the host create folders for volumes and add permissions for volume
 ```sh
@@ -15,7 +16,7 @@ Build containers and run them(you need to have docker buildx)
 docker compose build
 docker compose up
 ```
-Or if you want to change secrets(admin_password)
+Or if you want to change secrets(admin_password.txt)
 ```sh
 docker compose build --no-cache
 ```
@@ -63,3 +64,20 @@ Check deployed version on [deployed site](https://yout-low-bandwidth-download-ap
 * Cron every day to delete files at 4:00 and 3:00 to delete rows that were deleted previously at 4:00.
 ## TODO
 * linter for python
+* make auth -> get request, non limit-except
+* add test containers instead of shell simple script
+## Test
+Integration test for running backend container and checking if scheduler works.
+
+1 Test runs ~2 minutes with sleeps, it downloads file with id=1, so if you want to download specific file you need to clean volumes first.
+
+2 Test runs ~30 seconds with sleeps, it create row with state:deleted, which should be deleted by scheduler and shows get all files, which shouldn't include created file
+
+Example:
+```sh
+sh test/file-scheduler.integration-test.sh 15 24
+sh test/db-scheduler.integration-test.sh 13 24
+```
+15 24 is time when scheduler should deleted files.
+
+13 24 is time when scheduler should delete rows.
