@@ -38,6 +38,16 @@ docker push denisalik/rust-html-minifier-builder:latest
 docker compose up -d --build
 docker compose run --rm certbot certonly --webroot -w /var/www/certbot -d yout-low-bandwidth-download-app.duckdns.org -d www.yout-low-bandwidth-download-app.duckdns.org --agree-tos -m <your-mail@mail_domain.extension> --no-eff-email
 ```
+Add cron certificate renewal:
+```sh
+crontab -e
+#pass this(everyday at 3:00)
+0 3 * * * cd ~/youtube-low-bandwidth-download && docker compose run --rm certbot renew --webroot -w /var/www/certbot --quiet && docker compose exec frontend nginx -s reload
+#check if working
+crontab -l                              # list your current entries
+sudo grep CRON /var/log/syslog
+```
+
 ## Result
 Check deployed version on [deployed site](https://yout-low-bandwidth-download-app.duckdns.org)
 ## Features
@@ -52,5 +62,4 @@ Check deployed version on [deployed site](https://yout-low-bandwidth-download-ap
 * Storing information about database of files backend uses sqlite3
 * Cron every day to delete files at 4:00 and 3:00 to delete rows that were deleted previously at 4:00.
 ## TODO
-* https support
 * linter for python
