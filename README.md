@@ -63,8 +63,6 @@ Check deployed version on [deployed site](https://yout-low-bandwidth-download-ap
 * Backend track state of the download
 * Storing information about database of files backend uses sqlite3
 * Cron every day to delete files at 4:00 and 3:00 to delete rows that were deleted previously at 4:00.
-## TODO
-* add test containers instead of shell simple script
 ## Linter
 ```sh
 uv run ruff check .
@@ -92,3 +90,6 @@ sh test/db-scheduler.integration-test.sh 13 24
 15 24 is time when scheduler should deleted files.
 
 13 24 is time when scheduler should delete rows.
+
+## TODO
+* add test containers instead of shell simple script
