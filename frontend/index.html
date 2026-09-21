@@ -115,7 +115,13 @@
       async function load() {
         s.textContent = "Loading...";
         try {
-          const r = await fetch("/api/files");
+          const r = await fetch("/api/files", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": getAuthBasic(),
+              },
+          });
           if (!r.ok) throw new Error("HTTP " + r.status);
           const d = await r.json();
           render(d);
@@ -263,8 +269,6 @@
         const bs = document.querySelectorAll('button');
         bs.forEach(b => {b.disabled = false;});
       };
-
-      load();
     </script>
   </body>
 </html>
