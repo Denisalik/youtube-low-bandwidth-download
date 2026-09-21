@@ -14,6 +14,7 @@ class FormatList(BaseModel):
     url: str
     title: str
 
+
 class ChannelVideo(BaseModel):
     title: str
     url: str
@@ -23,6 +24,7 @@ class ChannelList(BaseModel):
     size: int
     videos: list[ChannelVideo]
     channel_name: str
+
 
 class DiskFile(BaseModel):
     size: int

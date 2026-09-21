@@ -1,3 +1,4 @@
+![Lint](https://github.com/Denisalik/youtube-low-bandwidth-download/actions/workflows/linter-ruff.yaml/badge.svg)
 # Low-Bandwidth youtube downloader web application
 Simple Web application that downloads youtube videos and shares with client them.
 ## Installation
@@ -63,9 +64,19 @@ Check deployed version on [deployed site](https://yout-low-bandwidth-download-ap
 * Storing information about database of files backend uses sqlite3
 * Cron every day to delete files at 4:00 and 3:00 to delete rows that were deleted previously at 4:00.
 ## TODO
-* linter for python
-* make auth -> get request, non limit-except
 * add test containers instead of shell simple script
+## Linter
+```sh
+uv run ruff check .
+#autofix
+uv run ruff check --fix .
+#fix with checking(similar to git diff
+uv run ruff check --fix --unsafe-fixes .
+#format (similar to black)
+uv run ruff format --check .
+#format fix
+uv run ruff format .
+```
 ## Test
 Integration test for running backend container and checking if scheduler works.
 

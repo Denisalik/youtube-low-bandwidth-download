@@ -1,4 +1,6 @@
 .venv
+.ruff_cache
+.github
 
 frontend/
 README.md
