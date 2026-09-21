@@ -21,7 +21,7 @@ Or if you want to change secrets(admin_password.txt)
 ```sh
 docker compose build --no-cache
 ```
-If you need to have delete all sql+fiels
+If you need to have delete all sql+files
 ```sh
 rm ./data/sql/database.db
 rm ./data/files/*
