@@ -4,40 +4,41 @@ import time
 import yt_dlp
 from yt_dlp.utils import DownloadError, ExtractorError
 
-from src.entity.file import File
+from src.entity.file import File, FileState
 
 from .extract import StorageInfoPP
 
 logger = logging.getLogger(__name__)
 
 
-def download(file: File, max_attempts: int = 3):
+def download(file: File):
     link = file.url
     format = file.format
     logger.info("downloading file with format:%s url:%s", format, link)
     home_directory_path = "/data/files/"
     outtmpl = home_directory_path + "%(title)s.%(ext)s"
     ydl_opts = {"quiet": True, "format": format, "outtmpl": outtmpl}
-    for attempt in range(max_attempts):
-        try:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                pp = StorageInfoPP(file=file, downloader=ydl)
-                ydl.add_post_processor(pp, when="post_process")
-                start_time = time.perf_counter()
-                ydl.download([link])
-                took_time = time.perf_counter() - start_time
-                file.download_duration = int(took_time)
-            logger.info("Downloaded succefully, link: \n%s", link)
-            return
-        except DownloadError:
-            logger.error("Download error (attempt %s/%s):", attempt + 1, max_attempts)
-            time.sleep(3)
-        except ExtractorError:
-            logger.error("Extraction error (attempt %s/%s):", attempt + 1, max_attempts)
-        except Exception:
-            logger.exception("Unexpected error")
-            raise
-    logger.warning("Download failed after all attempts")
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            pp = StorageInfoPP(file=file, downloader=ydl)
+            ydl.add_post_processor(pp, when="post_process")
+            file.state = FileState.start
+            start_time = time.perf_counter()
+            ydl.download([link])
+            took_time = time.perf_counter() - start_time
+            file.download_duration = int(took_time)
+        logger.info("Downloaded succefully, link: \n%s", link)
+        return
+    except DownloadError:
+        logger.error("Download error")
+        file.state = FileState.error
+    except ExtractorError:
+        logger.error("Extraction error")
+        file.state = FileState.error
+    except Exception:
+        logger.exception("Unexpected error")
+        file.state = FileState.error
+        raise
 
 
 def make_format(

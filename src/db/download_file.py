@@ -29,7 +29,6 @@ def download_file(file_id: int, format: str):
                 logger.error("format is wrong format is: %s", format)
                 raise Exception("Format is wrong")
             download(file)
-            file.state = FileState.end
         except Exception:
             session.rollback()
             file.state = FileState.error

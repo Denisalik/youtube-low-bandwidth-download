@@ -1,6 +1,6 @@
 from yt_dlp.postprocessor.common import PostProcessor
 
-from src.entity.file import File
+from src.entity.file import File, FileState
 
 
 class StorageInfoPP(PostProcessor):
@@ -19,5 +19,6 @@ class StorageInfoPP(PostProcessor):
 
         # downloaded format instead of provided one
         self.file.format = info["format"]
+        self.file.state = FileState.end
 
         return [], info
