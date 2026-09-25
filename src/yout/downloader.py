@@ -16,7 +16,7 @@ def download(file: File):
     format = file.format
     logger.info("downloading file with format:%s url:%s", format, link)
     home_directory_path = "/data/files/"
-    outtmpl = home_directory_path + "%(title)s.%(ext)s"
+    outtmpl = home_directory_path + file.id + "-" + "%(title)s.%(ext)s"
     ydl_opts = {"quiet": True, "format": format, "outtmpl": outtmpl}
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
