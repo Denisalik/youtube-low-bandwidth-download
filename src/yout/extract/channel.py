@@ -9,6 +9,7 @@ def list_channel_videos(url: str) -> ChannelList:
         url = url + "/videos"
     ydl_opts = {
         "quiet": True,
+        "no_warnings": True,
         "skip_download": True,
         "extract_flat": True,
     }

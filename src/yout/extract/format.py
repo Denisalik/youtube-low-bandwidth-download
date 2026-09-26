@@ -7,6 +7,7 @@ def list_formats(url: str, audio_only: bool = False, no_size_ignore: bool = True
     ydl_opts = {
         "quiet": True,
         "skip_download": True,
+        "no_warnings": True
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
