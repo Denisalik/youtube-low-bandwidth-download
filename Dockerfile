@@ -19,7 +19,7 @@ RUN uv sync --no-dev --locked --no-editable
 
 FROM python:3.14-alpine AS production
 
-RUN apk add --no-cache deno gosu
+RUN apk add --no-cache deno gosu ffmpeg
 RUN adduser -D -H worker && mkdir -p /deno-dir && chown worker:worker /deno-dir
 
 ENV DENO_DIR=/deno-dir
