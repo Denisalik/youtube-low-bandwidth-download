@@ -19,10 +19,10 @@ RUN uv sync --no-dev --locked --no-editable
 
 FROM python:3.14-alpine AS production
 
-COPY --from=denoland/deno:bin-2.9.7 /deno /usr/local/bin/deno
+RUN apk add --no-cache deno gosu
+RUN adduser -D -H worker && mkdir -p /deno-dir && chown worker:worker /deno-dir
 
-RUN apk add --no-cache gosu
-RUN adduser -D -H worker
+ENV DENO_DIR=/deno-dir
 
 COPY --from=builder --chown=worker:worker /service/.venv /service/.venv
 COPY --from=builder --chown=worker:worker /service/src /service/src
