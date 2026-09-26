@@ -42,7 +42,7 @@ def download(file: File):
 
 
 def make_format(
-    audio_only: bool = False, height: int = 720, smaller: bool = True, default_formats: list[str] = ["135+139", "136+139"]
+    audio_only: bool = False, height: int = 720, smaller: bool = True, default_formats: list[str] = ["135+139", "136+139", "137+139"]
 ) -> str:
     """
     Examples:
