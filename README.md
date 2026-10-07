@@ -53,18 +53,21 @@ sudo grep CRON /var/log/syslog
 ## Result
 Check deployed version on [deployed site](https://yout-low-bandwidth-download-app.duckdns.org)
 ## Features
-* Frontend doesn't use any css/js/frameworks ~1500 bytes(~3800->~1470 gzipped)
+* Frontend doesn't use any css/js/frameworks ~1.5 KB(4399->1617 bytes gzipped)
 * Frontend html is minified using rust-based minifier(minify-html)
 * For downloading files it uses native browser without fetch blob.
 * Nginx serves directly from ./data/files
 * Nginx have configured for low bandwidth with full resume support and long timeout
-* Nginx using http2, without ssl
+* Nginx using http2+http3+quic with ssl support
 * Backend uses a low-weight video format, ideally audio, to download files.
 * Backend track state of the download
 * Storing information about database of files backend uses sqlite3
-* Cron every day to delete files at 4:00 and 3:00 to delete rows that were deleted previously at 4:00.
+* Cron every week at sunday to delete files at 4:00 and 3:00 to delete rows that were deleted previously at 4:00.
 ## Linter
 ```sh
+#oneliner
+uv run ruff check . && uv run ruff format --check .
+#format
 uv run ruff check .
 #autofix
 uv run ruff check --fix .
@@ -77,4 +80,4 @@ uv run ruff format .
 ```
 
 ## TODO
-* add test containers instead of shell simple script
+* add tests, possibly with testcontainers
