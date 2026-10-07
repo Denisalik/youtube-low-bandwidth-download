@@ -42,14 +42,17 @@ def download(file: File):
 
 
 def make_format(
-    audio_only: bool = False, height: int = 720, smaller: bool = True, default_formats: list[str] = ["135+139", "136+139", "137+139"]
+    audio_only: bool = False,
+    height: int = 720,
+    smaller: bool = True,
+    default_formats: list[str] | None = None,
 ) -> str:
     """
     Examples:
         >>> make_format(False, 720, True)
-        'bestvideo[height<=720]+bestaudio[format_note*=original]/best[height<=720]/135+139/136+139/139'
+        'bestvideo[height<=720]+bestaudio[format_note*=original]/best[height<=720]/135+139/136+139/137+139/139'
         >>> make_format(False, 360, False)
-        'worstvideo[height>=360]+bestaudio[format_note*=original]/worst[height>=360]/135+139/136+139/139'
+        'worstvideo[height>=360]+bestaudio[format_note*=original]/worst[height>=360]/135+139/136+139/137+139/139'
         >>> make_format(True)
         'ba[format_note*=original][format_id^=139]/139'
 
@@ -61,10 +64,13 @@ def make_format(
         smaller: if video is downloaded, this param allow you to choose resolution.
             Chooses best of heights if True, worst of heights if False.
         default_format: If video cannot be downloaded using your format, default format is used.
-            When no specified default is 135(mp4, 480x854, shorts) + 136(mp4, 1280x720) + 139(audio only).
+            When no specified default is 135(mp4, 480x854, shorts) + 136(mp4, 1280x720) +
+            137() + 139(audio only).
     Returns:
         Format in string.
     """
+    if default_formats is None:
+        default_formats = ["135+139", "136+139", "137+139"]
     if audio_only:
         audio_format = "ba[format_note*=original][format_id^=139]" + "/139"
         return audio_format

@@ -68,28 +68,13 @@ Check deployed version on [deployed site](https://yout-low-bandwidth-download-ap
 uv run ruff check .
 #autofix
 uv run ruff check --fix .
-#fix with checking(similar to git diff
+#fix with checking(similar to git diff)
 uv run ruff check --fix --unsafe-fixes .
 #format (similar to black)
 uv run ruff format --check .
 #format fix
 uv run ruff format .
 ```
-## Test
-Integration test for running backend container and checking if scheduler works.
-
-1 Test runs ~2 minutes with sleeps, it downloads file with id=1, so if you want to download specific file you need to clean volumes first.
-
-2 Test runs ~30 seconds with sleeps, it create row with state:deleted, which should be deleted by scheduler and shows get all files, which shouldn't include created file
-
-Example:
-```sh
-sh test/file-scheduler.integration-test.sh 15 24
-sh test/db-scheduler.integration-test.sh 13 24
-```
-15 24 is time when scheduler should deleted files.
-
-13 24 is time when scheduler should delete rows.
 
 ## TODO
 * add test containers instead of shell simple script

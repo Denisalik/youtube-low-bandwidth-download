@@ -6,7 +6,7 @@ from apscheduler.triggers.cron import CronTrigger
 from fastapi import FastAPI
 
 from src.db import create_db_and_tables, db_cleanup_task, file_cleanup_task
-from src.router import disk_router, file_router
+from src.router import cleanup_router, disk_router, file_router
 
 file_cleanup_hour: int = int(os.getenv("FILE_CLEANUP_HOUR", "1"))
 db_cleanup_hour: int = int(os.getenv("DB_CLEANUP_HOUR", "0"))
@@ -22,11 +22,13 @@ async def lifespan(app: FastAPI):
     # time is used is UTC, to get MSC time you need to add +3
     scheduler.add_job(
         file_cleanup_task,
-        CronTrigger(hour=file_cleanup_hour, minute=cleanup_minute),
+        CronTrigger(day_of_week="sun", hour=file_cleanup_hour, minute=cleanup_minute),
         id="file_cleanup",
     )
     scheduler.add_job(
-        db_cleanup_task, CronTrigger(hour=db_cleanup_hour, minute=cleanup_minute), id="db_cleanup"
+        db_cleanup_task,
+        CronTrigger(day_of_week="sun", hour=db_cleanup_hour, minute=cleanup_minute),
+        id="db_cleanup",
     )
     scheduler.start()
     yield
@@ -36,5 +38,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="youtube-download-app", lifespan=lifespan)
 
+
 app.include_router(file_router)
 app.include_router(disk_router)
+app.include_router(cleanup_router)

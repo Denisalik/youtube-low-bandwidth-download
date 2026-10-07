@@ -19,6 +19,10 @@ def file_cleanup_task():
         )
         files = session.exec(statement).all()
         for file in files:
+            if file.file_name is None:
+                logger.info(f"Deleted file with url: {file.url}")
+                file.state = FileState.deleted
+                continue
             file_path = FILES_DIR / file.file_name
             if file_path.is_file():
                 try:
@@ -30,7 +34,7 @@ def file_cleanup_task():
                     logger.error(f"Failed to delete {file_path}: {e}")
                     continue
             else:
-                file.state = FileState.error
+                file.state = FileState.deleted
                 logger.warning(f"File not found, skipping: {file_path}")
             session.add(file)
         session.commit()
@@ -38,6 +42,8 @@ def file_cleanup_task():
 
 def db_cleanup_task():
     with Session(engine) as session:
-        statement = delete(File).where(File.state == FileState.deleted)
+        statement = delete(File).where(
+            (File.state == FileState.deleted) | (File.state == FileState.get)
+        )
         session.exec(statement)
         session.commit()
