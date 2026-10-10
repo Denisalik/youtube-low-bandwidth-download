@@ -26,6 +26,8 @@ If you need to have delete all sql+files
 rm ./data/sql/database.db
 rm ./data/files/*
 ```
+## Important for other users.
+I am using nginx as gateway for my own VDS, so I have added ssl peak for vpn, reverse proxy for openrouter + ssl on my specific domain with DNS pointing at that domain. Delete everything in `frontend/nginx.conf` related to it to install it(stream block and change server blocks however you like).
 ## HTML minifier installation
 Frontend uses this long time compiling image. For convenience it pushed into docker hub and frontend dockerfile uses image from docker hub. But if you need to recompile it.
 ```sh
