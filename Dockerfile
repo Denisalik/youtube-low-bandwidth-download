@@ -14,7 +14,7 @@ RUN uv sync --no-dev --locked --no-editable --no-install-project
 
 COPY src ./src
 RUN uv sync --no-dev --locked --no-editable
-
+COPY .env .env
 
 
 FROM python:3.14-alpine AS production
@@ -26,6 +26,7 @@ ENV DENO_DIR=/deno-dir
 
 COPY --from=builder --chown=worker:worker /service/.venv /service/.venv
 COPY --from=builder --chown=worker:worker /service/src /service/src
+COPY --from=builder --chown=worker:worker /service/.env /service/.env
 # Owner (worker): rwx, group (worker): rx, others: rx. or 755
 RUN chmod -R u=rwx,go=rx /service
 

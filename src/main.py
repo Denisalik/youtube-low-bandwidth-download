@@ -3,14 +3,17 @@ from contextlib import asynccontextmanager
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from dotenv import load_dotenv
 from fastapi import FastAPI
 
 from src.db import create_db_and_tables, db_cleanup_task, file_cleanup_task
 from src.router import cleanup_router, disk_router, file_router
 
+load_dotenv()
 file_cleanup_hour: int = int(os.getenv("FILE_CLEANUP_HOUR", "1"))
 db_cleanup_hour: int = int(os.getenv("DB_CLEANUP_HOUR", "0"))
 cleanup_minute: int = int(os.getenv("CLEANUP_MINUTE", "0"))
+file_day_of_week: str = os.getenv("FILE_DAY_OF_WEEK", "sun")
 
 
 @asynccontextmanager
@@ -22,12 +25,12 @@ async def lifespan(app: FastAPI):
     # time is used is UTC, to get MSC time you need to add +3
     scheduler.add_job(
         file_cleanup_task,
-        CronTrigger(day_of_week="sun", hour=file_cleanup_hour, minute=cleanup_minute),
+        CronTrigger(day_of_week=file_day_of_week, hour=file_cleanup_hour, minute=cleanup_minute),
         id="file_cleanup",
     )
     scheduler.add_job(
         db_cleanup_task,
-        CronTrigger(day_of_week="sun", hour=db_cleanup_hour, minute=cleanup_minute),
+        CronTrigger(hour=db_cleanup_hour, minute=cleanup_minute),
         id="db_cleanup",
     )
     scheduler.start()

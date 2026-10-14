@@ -64,7 +64,7 @@ Check deployed version on [deployed site](https://yout-low-bandwidth-download-ap
 * Backend uses a low-weight video format, ideally audio, to download files.
 * Backend track state of the download
 * Storing information about database of files backend uses sqlite3
-* Cron every week at sunday to delete files at 4:00 and 3:00 to delete rows that were deleted previously at 4:00.
+* Cron every week at sunday to delete files at 4:00 and 3:00 to delete rows that were deleted as files previously at 4:00 everyday.
 ## Linter
 ```sh
 #oneliner
