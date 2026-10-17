@@ -94,6 +94,8 @@
       <input id="p" placeholder="Password" type="password" />
       <button id="a">Add</button>
       <button id="r">Reload</button>
+      <button id="f">Clean up Files</button>
+      <button id="d">Clean up DB</button>
     </div>
     <p id="s"></p>
     <ul id="l"></ul>
@@ -268,6 +270,40 @@
         load();
         const bs = document.querySelectorAll('button');
         bs.forEach(b => {b.disabled = false;});
+      };
+      document.getElementById("f").onclick = async () => {
+        s.textContent = "Sending...";
+        try {
+          const r = await fetch("/api/cleanup/file", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": getAuthBasic(),
+            },
+          });
+          if (!r.ok) throw new Error("HTTP " + r.status);
+        } catch (e) {
+          s.textContent = "Error: " + e.message;
+        }
+
+        load();
+      };
+      document.getElementById("d").onclick = async () => {
+        s.textContent = "Sending...";
+        try {
+          const r = await fetch("/api/cleanup/db", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": getAuthBasic(),
+            },
+          });
+          if (!r.ok) throw new Error("HTTP " + r.status);
+        } catch (e) {
+          s.textContent = "Error: " + e.message;
+        }
+
+        load();
       };
     </script>
   </body>
