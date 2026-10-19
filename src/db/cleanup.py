@@ -15,7 +15,7 @@ FILES_DIR = Path("/data/files")
 def file_cleanup_task():
     with Session(engine) as session:
         statement = select(File).where(
-            (File.state == FileState.end) | (File.state == FileState.error)
+            (File.state == FileState.end) | (File.state == FileState.error) | (File.state == FileState.start)
         )
         files = session.exec(statement).all()
         for file in files:
@@ -43,7 +43,7 @@ def file_cleanup_task():
 def db_cleanup_task():
     with Session(engine) as session:
         statement = delete(File).where(
-            (File.state == FileState.deleted) | (File.state == FileState.get)
+            (File.state == FileState.deleted) | (File.state == FileState.start)
         )
         session.exec(statement)
         session.commit()

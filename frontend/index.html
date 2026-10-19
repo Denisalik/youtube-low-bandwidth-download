@@ -198,38 +198,54 @@
             a.textContent = "Download";
             li.appendChild(a);
           } else {
-            const e = document.createElement("select");
+            if (x.state !== 'get'){
+              const e = document.createElement("select");
             
-            const o1 = document.createElement("option");
-            o1.textContent = "360";
-            
-            const o2 = document.createElement("option");
-            o2.textContent = "720";
-            
-            const o3 = document.createElement("option");
-            o3.textContent = "audio";
-            o3.selected = true;
-            
-            e.appendChild(o1);
-            e.appendChild(o2);
-            e.appendChild(o3);
-            
-            const b = document.createElement("button");
-            b.href = "/files/" + encodeURIComponent(x.file_name);
-            b.textContent = "Download";
-            b.onclick = async () => {
-              b.disabled = true;
-              const r = await fetch(`/api/files/${x.id}/download/${e.value}`, {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": getAuthBasic(),
-                },
-              });
-            };
-            
-            li.appendChild(e);
-            li.appendChild(b);
+              const o1 = document.createElement("option");
+              o1.textContent = "360";
+              
+              const o2 = document.createElement("option");
+              o2.textContent = "720";
+              
+              const o3 = document.createElement("option");
+              o3.textContent = "audio";
+              o3.selected = true;
+              
+              e.appendChild(o1);
+              e.appendChild(o2);
+              e.appendChild(o3);
+
+              const b = document.createElement("button");
+              b.href = "/files/" + encodeURIComponent(x.file_name);
+              b.textContent = "Download";
+              b.onclick = async () => {
+                b.disabled = true;
+                const r = await fetch(`/api/files/${x.id}/download/${e.value}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": getAuthBasic(),
+                  },
+                });
+              };
+
+              const d = document.createElement("button");
+              d.textContent = "Delete";
+              d.onclick = async () => {
+                const r = await fetch(`/api/files/${x.id}`, {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": getAuthBasic(),
+                  },
+                });
+                load();
+              };
+
+              li.appendChild(e);
+              li.appendChild(b);
+              li.appendChild(d);
+            }
           }
           l.appendChild(li);
         });
