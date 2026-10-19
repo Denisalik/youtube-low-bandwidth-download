@@ -15,7 +15,9 @@ FILES_DIR = Path("/data/files")
 def file_cleanup_task():
     with Session(engine) as session:
         statement = select(File).where(
-            (File.state == FileState.end) | (File.state == FileState.error) | (File.state == FileState.start)
+            (File.state == FileState.end)
+            | (File.state == FileState.error)
+            | (File.state == FileState.start)
         )
         files = session.exec(statement).all()
         for file in files:
