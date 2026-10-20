@@ -1,7 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from sqlmodel import col, select
 
-from src.db import SessionDep, download_file
+from src.db import SessionDep, download_file, file_delete_by_id
 from src.entity.file import CreateFile, File
 
 router = APIRouter(
@@ -54,9 +54,5 @@ def download_file_in_format(id: int, format: str, session: SessionDep, backgroun
 
 @router.delete("/{id}")
 def delete_file(id: int, session: SessionDep):
-    file = session.get(File, id)
-    if not file:
-        raise HTTPException(status_code=404, detail="File not found")
-    session.delete(file)
-    session.commit()
+    file_delete_by_id(id, session)
     return {"ok": True}

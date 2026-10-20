@@ -1,4 +1,4 @@
-from .cleanup import db_cleanup_task, file_cleanup_task
+from .cleanup import db_cleanup_task, file_cleanup_task, file_delete_by_id
 from .download_file import download_file
 from .engine import SessionDep, create_db_and_tables
 
@@ -8,4 +8,5 @@ __all__ = [
     "SessionDep",
     "file_cleanup_task",
     "db_cleanup_task",
+    "file_delete_by_id",
 ]
