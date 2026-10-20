@@ -197,8 +197,8 @@
             a.download = x.file_name;
             a.textContent = "Download";
             li.appendChild(a);
-          } else {
-            if (x.state === 'get'){
+          }
+          if (x.state === 'get'){
               const e = document.createElement("select");
             
               const o1 = document.createElement("option");
@@ -230,22 +230,24 @@
               };
               li.appendChild(e);
               li.appendChild(b);
-            } else {
-              const d = document.createElement("button");
-              d.textContent = "Delete";
-              d.onclick = async () => {
-                const r = await fetch(`/api/files/${x.id}`, {
-                  method: "DELETE",
-                  headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": getAuthBasic(),
-                  },
-                });
-                load();
-              };
-              li.appendChild(d);
             }
+          
+          if (x.state === 'start' || downloaded) {
+            const d = document.createElement("button");
+            d.textContent = "Delete";
+            d.onclick = async () => {
+              const r = await fetch(`/api/files/${x.id}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": getAuthBasic(),
+                },
+              });
+              load();
+            };
+            li.appendChild(d);
           }
+
           l.appendChild(li);
         });
       }
