@@ -14,7 +14,7 @@ FILES_DIR = Path("/data/files")
 
 
 def file_delete_by_id(file_id: int, session: Session):
-    file = session.get(File, id)
+    file = session.get(File, file_id)
     if file is None or file.file_name is None:
         logger.error(f"Failed to delete id: {file_id}")
         raise HTTPException(status_code=404, detail="File not found")
