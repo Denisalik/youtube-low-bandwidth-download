@@ -17,9 +17,9 @@ def get_files(session: SessionDep):
     return session.exec(statement).all()
 
 
-@router.get("/{id}")
-def get_file(id: int, session: SessionDep):
-    file = session.get(File, id)
+@router.get("/{file_id}")
+def get_file(file_id: int, session: SessionDep):
+    file = session.get(File, file_id)
     if not file:
         raise HTTPException(status_code=404, detail="File not found")
     return file
@@ -38,9 +38,9 @@ def create_file(create_file: CreateFile, session: SessionDep):
     return file
 
 
-@router.put("/{id}/download/{format}")
-def download_file_in_format(id: int, format: str, session: SessionDep, background: BackgroundTasks):
-    file = session.get(File, id)
+@router.put("/{file_id}/download/{format}")
+def download_file_in_format(file_id: int, format: str, session: SessionDep, background: BackgroundTasks):
+    file = session.get(File, file_id)
     if not file:
         raise HTTPException(status_code=404, detail="File not found")
     if not CreateFile.is_valid_format(format):
@@ -48,11 +48,11 @@ def download_file_in_format(id: int, format: str, session: SessionDep, backgroun
     file.state = "start"
     session.add(file)
     session.commit()
-    background.add_task(download_file, id, format)
+    background.add_task(download_file, file_id, format)
     return {"ok": True}
 
 
-@router.delete("/{id}")
-def delete_file(id: int, session: SessionDep):
-    file_delete_by_id(id, session)
+@router.delete("/{file_id}")
+def delete_file(file_id: int, session: SessionDep):
+    file_delete_by_id(file_id, session)
     return {"ok": True}

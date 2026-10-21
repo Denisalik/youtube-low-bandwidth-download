@@ -190,6 +190,22 @@
           container.appendChild(meta3);
           
           li.appendChild(container);
+
+          if (x.state === 'start' || downloaded) {
+            const d = document.createElement("button");
+            d.textContent = "Delete";
+            d.onclick = async () => {
+              const r = await fetch(`/api/files/${x.id}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": getAuthBasic(),
+                },
+              });
+              load();
+            };
+            li.appendChild(d);
+          }
           
           if (downloaded) {
             const a = document.createElement("a");
@@ -231,22 +247,6 @@
               li.appendChild(e);
               li.appendChild(b);
             }
-          
-          if (x.state === 'start' || downloaded) {
-            const d = document.createElement("button");
-            d.textContent = "Delete";
-            d.onclick = async () => {
-              const r = await fetch(`/api/files/${x.id}`, {
-                method: "DELETE",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": getAuthBasic(),
-                },
-              });
-              load();
-            };
-            li.appendChild(d);
-          }
 
           l.appendChild(li);
         });
