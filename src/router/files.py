@@ -39,7 +39,9 @@ def create_file(create_file: CreateFile, session: SessionDep):
 
 
 @router.put("/{file_id}/download/{format}")
-def download_file_in_format(file_id: int, format: str, session: SessionDep, background: BackgroundTasks):
+def download_file_in_format(
+    file_id: int, format: str, session: SessionDep, background: BackgroundTasks
+):
     file = session.get(File, file_id)
     if not file:
         raise HTTPException(status_code=404, detail="File not found")

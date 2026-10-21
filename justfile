@@ -15,6 +15,9 @@ docker-build:
 docker-up:
     docker compose up
 
+test:
+    uv run pytest -s
+
 #oneliner for checking linter format
 format: ruff-check ruff-format
 

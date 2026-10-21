@@ -65,6 +65,16 @@ Check deployed version on [deployed site](https://yout-low-bandwidth-download-ap
 * Backend track state of the download
 * Storing information about database of files backend uses sqlite3
 * Cron every week at sunday to delete files at 4:00 and 3:00 to delete rows that were deleted as files previously at 4:00 everyday.
+## Test
+Uses test Containers with volumes:
+- ./data/files
+- ./data/sql
+
+it print data of all files for easy reading.
+```sh
+just test
+``` 
+It can be used for easy use for downloading urls, by adding new test, as volumes are not cleaned automatically.
 ## Linter
 ```sh
 #oneliner
@@ -82,4 +92,4 @@ uv run ruff format .
 ```
 
 ## TODO
-* add tests, possibly with testcontainers
+ * fix twitch clips/streams download information
