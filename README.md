@@ -93,3 +93,6 @@ uv run ruff format .
 
 ## TODO
  * fix twitch clips/streams download information
+
+### DOCS HELP
+'https://yt-dlp-yt-dlp.mintlify.app/api/examples'
