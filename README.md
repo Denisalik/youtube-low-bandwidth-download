@@ -1,6 +1,6 @@
 ![Lint](https://github.com/Denisalik/youtube-low-bandwidth-download/actions/workflows/linter-ruff.yaml/badge.svg)
 # Low-Bandwidth youtube downloader web application
-Simple Web application that downloads youtube videos and shares with client them.
+Simple Web application that downloads youtube/twitch videos and shares with client them.
 
 If you downloaded audio, you can extract text using eleven labs and download text in txt format aswell.
 ## Preparation
@@ -104,9 +104,6 @@ uv run ruff format --check .
 #format fix
 uv run ruff format .
 ```
-
-## TODO
- * fix twitch clips/streams download information
 
 ### DOCS HELP
 'https://yt-dlp-yt-dlp.mintlify.app/api/examples'

@@ -1,3 +1,5 @@
+import os
+
 from yt_dlp.postprocessor.common import PostProcessor
 
 from src.entity.file import File, FileState
@@ -8,20 +10,24 @@ class StorageInfoPP(PostProcessor):
         super().__init__(downloader)
         self.file = file
 
-    def run(self, info: dict) -> tuple[list, dict]:
+    def run(self, information: dict) -> tuple[list[str], dict]:
         # check dict if needed
         # with open("/data/files/output.json", "w", encoding="utf-8") as f:
-        #     json.dump(info, f, indent=4, sort_keys=True, default=str)
-        self.file.size = info.get("filesize", info.get("filesize_approx"))
-        self.file.channel_name = info["channel"]
-        self.file.name = info["title"]
-        self.file.duration = info["duration_string"]
+        #     json.dump(information, f, indent=4, sort_keys=True, default=str)
+        self.file.channel_name = information.get("channel")
+        self.file.name = information.get("title")
+        self.file.duration = information.get("duration_string")
 
         # strip folder names from absolute path
-        self.file.file_name = info["filename"].removeprefix("/data/files/")
+        filename = information.get("filename")
+        if filename:
+            self.file.file_name = filename.removeprefix("/data/files/")
+            self.file.size = information.get("filesize") or information.get("filesize_approx") or os.path.getsize(filename)
 
         # downloaded format instead of provided one
-        self.file.format = info["format"]
+        format = information.get("format")
+        if format:
+            self.file.format = format
         self.file.state = FileState.end
 
-        return [], info
+        return [], information

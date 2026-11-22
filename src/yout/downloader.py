@@ -17,7 +17,7 @@ def download(file: File):
     logger.info("downloading file with format:%s url:%s", format, link)
     home_directory_path = "/data/files/"
     outtmpl = f"{home_directory_path}{file.id}-" + "%(title)s.%(ext)s"
-    ydl_opts = {"quiet": True, "no_warnings": True, "format": format, "outtmpl": outtmpl}
+    ydl_opts: yt_dlp._Params = {"quiet": True, "no_warnings": True, "format": format, "outtmpl": outtmpl}
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             pp = StorageInfoPP(file=file, downloader=ydl)
@@ -26,7 +26,7 @@ def download(file: File):
             start_time = time.perf_counter()
             ydl.download([link])
             took_time = time.perf_counter() - start_time
-            file.download_duration = int(took_time)
+            file.download_duration = round(took_time)
         logger.info("Downloaded succefully, link: \n%s", link)
         return
     except DownloadError:
