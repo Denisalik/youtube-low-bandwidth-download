@@ -142,7 +142,7 @@
           s.textContent = items.length + " items";
         }
         items.forEach((x) => {
-          const downloaded = x.state === "end";
+          const downloaded = x.state === "end" || x.state === "end_text";
 
           const li = document.createElement("li");
           
@@ -165,16 +165,6 @@
           meta.className = "m";
           meta.textContent = x.url;
           
-          const meta2 = document.createElement("div");
-          meta2.className = "m";
-          if (x.state !== 'get' && x.state !== 'end'){
-            meta2.textContent = "File state: " + x.state;
-          } else {
-            meta2.textContent = downloaded
-            ? (x.size / 1024 / 1024).toFixed(2) + " MB"
-            : "—";
-          }
-          
           const meta3 = document.createElement("div");
           meta3.className = "m";
           meta3.textContent = downloaded ? x.format : "—";
@@ -186,7 +176,14 @@
           
           container.appendChild(document.createElement("br"));
           
-          container.appendChild(meta2);
+          if (downloaded){
+            const meta2 = document.createElement("div");
+            meta2.className = "m";
+            meta2.textContent = downloaded
+            ? (x.size / 1024 / 1024).toFixed(2) + " MB"
+            : "—";
+            container.appendChild(meta2);
+          }
           container.appendChild(meta3);
           
           li.appendChild(container);
@@ -214,6 +211,28 @@
             a.textContent = "Download";
             li.appendChild(a);
           }
+          if (x.state === 'end') {
+            const b = document.createElement("button");
+            b.textContent = "Download TXT";
+            b.onclick = async () => {
+              b.disabled = true;
+              const r = await fetch(`/api/ai/${x.id}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": getAuthBasic(),
+                },
+              });
+            };
+            li.appendChild(b);
+          }
+          if (x.state === 'end_text') {
+            const a = document.createElement("a");
+            a.href = "/files/" + encodeURIComponent(x.text_transcription_file);
+            a.download = x.text_transcription_file;
+            a.textContent = "Download TXT";
+            li.appendChild(a);
+          }
           if (x.state === 'get'){
               const e = document.createElement("select");
             
@@ -232,7 +251,6 @@
               e.appendChild(o3);
 
               const b = document.createElement("button");
-              b.href = "/files/" + encodeURIComponent(x.file_name);
               b.textContent = "Download";
               b.onclick = async () => {
                 b.disabled = true;

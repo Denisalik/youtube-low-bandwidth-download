@@ -13,3 +13,4 @@ admin_password.txt
 data/
 .ruff_cache/
 .pytest_cache/
+.env

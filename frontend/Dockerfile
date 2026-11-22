@@ -26,3 +26,8 @@ FROM nginx:1.31.5-alpine as production
 COPY --from=builder /build/minify/index.html /usr/share/nginx/html/index.html
 COPY --from=builder /build/secrets/.htpasswd /etc/nginx/secrets/.htpasswd
 COPY nginx.conf /etc/nginx/nginx.conf
+
+FROM nginx:1.31.5-alpine as development
+
+COPY --from=builder /build/minify/index.html /usr/share/nginx/html/index.html
+COPY nginx-without-security.conf /etc/nginx/nginx.conf

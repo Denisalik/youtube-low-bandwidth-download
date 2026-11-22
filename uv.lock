@@ -190,6 +190,23 @@ wheels = [
 ]
 
 [[package]]
+name = "elevenlabs"
+version = "2.79.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "pydantic-core" },
+    { name = "requests" },
+    { name = "typing-extensions" },
+    { name = "websockets" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/96/a5/6e486a1f52c1621a9a6616234c656761c9b0ef212776e1c541b2bd4aabbf/elevenlabs-2.79.0.tar.gz", hash = "sha256:ff5bda55266ba33d046f9381c49347240e1512354a9035076bb1445c730a36f4", size = 1107869, upload-time = "2026-11-16T13:54:40.626Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ea/1b/b757bbd4d3582ca8015ea9c26bd0d578dd96eb33ce8672a03d204ae7a82a/elevenlabs-2.79.0-py3-none-any.whl", hash = "sha256:99ab0737dcd4ecdf540ab575ecdbf4b5f8fc098bdd018bc2d265a56eefaed131", size = 2823315, upload-time = "2026-11-16T13:54:38.629Z" },
+]
+
+[[package]]
 name = "email-validator"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1054,7 +1071,9 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "apscheduler" },
+    { name = "elevenlabs" },
     { name = "fastapi", extra = ["standard-no-fastapi-cloud-cli"] },
+    { name = "requests" },
     { name = "sqlmodel" },
     { name = "yt-dlp" },
 ]
@@ -1070,7 +1089,9 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "apscheduler", specifier = ">=3.11.3" },
+    { name = "elevenlabs", specifier = ">=2.79.0" },
     { name = "fastapi", extras = ["standard-no-fastapi-cloud-cli"], specifier = ">=0.141.1" },
+    { name = "requests", specifier = ">=2.34.2" },
     { name = "sqlmodel", specifier = ">=0.0.42" },
     { name = "yt-dlp", specifier = ">=2026.8.19" },
 ]

@@ -7,6 +7,6 @@ def test_get_all_endpoint(backend_server):
     data = response.json()
     print(data)
     assert isinstance(data, list)
-    #if you have data
+    # if you have data
     assert len(data) > 0
     assert all("id" in item for item in data)

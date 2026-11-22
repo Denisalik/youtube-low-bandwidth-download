@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 def download_file(file_id: int, format: str):
     with Session(engine) as session:
+        file = session.get(File, file_id)
         try:
-            file = session.get(File, file_id)
             if file is None:
                 # not possible from /api/files/{id}/download
                 logger.error("item %s disappeared before job ran", file_id)
@@ -31,7 +31,8 @@ def download_file(file_id: int, format: str):
             download(file)
         except Exception:
             session.rollback()
-            file.state = FileState.error
+            if file is not None:
+                file.state = FileState.error
             logger.exception("download failed for item %s", file_id)
         finally:
             session.add(file)

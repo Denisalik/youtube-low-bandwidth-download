@@ -1,19 +1,20 @@
+import random
+import time
+
 import pytest
 import yt_dlp
-import time
-import random
 from yt_dlp.utils import DownloadError, ExtractorError
 
 from src.yout.downloader import make_format
 from src.yout.extract.channel import list_channel_videos
 from src.yout.extract.format import list_formats
-            
+
 
 def download(link: str, format: str, max_attempts: int = 10):
-    home_directory_path = '~/Downloads/'
+    home_directory_path = "~/Downloads/"
     link_id = round(random.uniform(0, 1), 2)
-    outtmpl = home_directory_path + f'{link_id}-' + '%(title)s.%(ext)s'
-    ydl_opts = {'quiet': True, 'format': format, 'outtmpl': outtmpl}
+    outtmpl = home_directory_path + f"{link_id}-" + "%(title)s.%(ext)s"
+    ydl_opts = {"quiet": True, "format": format, "outtmpl": outtmpl}
     # 'cookiefile': cookies_file,
     for attempt in range(max_attempts):
         try:
@@ -27,10 +28,11 @@ def download(link: str, format: str, max_attempts: int = 10):
         except ExtractorError:
             print(f"Extraction error (attempt {attempt + 1}/{max_attempts}):")
         except Exception:
-            print(f"Unexpected error")
+            print("Unexpected error")
             break
     print("Download failed after all attempts")
     return
+
 
 @pytest.mark.skip(reason="uncomment me if needed")
 def test_yt_dlp():

@@ -1,6 +1,8 @@
 ![Lint](https://github.com/Denisalik/youtube-low-bandwidth-download/actions/workflows/linter-ruff.yaml/badge.svg)
 # Low-Bandwidth youtube downloader web application
 Simple Web application that downloads youtube videos and shares with client them.
+
+If you downloaded audio, you can extract text using eleven labs and download text in txt format aswell.
 ## Installation
 On the host create folders for volumes and add permissions for volume
 ```sh
@@ -27,7 +29,9 @@ rm ./data/sql/database.db
 rm ./data/files/*
 ```
 ## Important for other users.
-I am using nginx as gateway for my own VDS, so I have added ssl peak for vpn, reverse proxy for openrouter + ssl on my specific domain with DNS pointing at that domain. Delete everything in `frontend/nginx.conf` related to it to install it(stream block and change server blocks however you like).
+I am using nginx as gateway for my own VDS, so I have added ssl peek for vpn, reverse proxy for openrouter + ssl on my specific domain with DNS pointing at that domain. Use target=development in docker-compose.yaml to disable it.
+- The VDS has a single public port, 443, but it needs to serve two different TLS services:
+- Instead of running two listeners, nginx acts as a layer-4 gateway: it peeks at the TLS handshake, reads the SNI (server name) the client requested, and forwards the raw, still-encrypted connection to the right backend.
 ## HTML minifier installation
 Frontend uses this long time compiling image. For convenience it pushed into docker hub and frontend dockerfile uses image from docker hub. But if you need to recompile it.
 ```sh

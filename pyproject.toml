@@ -6,7 +6,9 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "apscheduler>=3.11.3",
+    "elevenlabs>=2.79.0",
     "fastapi[standard-no-fastapi-cloud-cli]>=0.141.1",
+    "requests>=2.34.2",
     "sqlmodel>=0.0.42",
     "yt-dlp>=2026.8.19",
 ]
@@ -35,4 +37,7 @@ select = [
     "UP",   # pyupgrade (современный синтаксис)
     "B",    # flake8-bugbear (типичные баги)
     "ASYNC",# правила для async-кода — пригодится для FastAPI
+]
+ignore = [
+    "E731", # Do not assign a lambda expression, use a def
 ]

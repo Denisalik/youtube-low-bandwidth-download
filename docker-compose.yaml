@@ -5,6 +5,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       target: production
+      # target: development
       secrets:
         - admin_password
     restart: unless-stopped
@@ -15,10 +16,6 @@ services:
       - ./data/secrets/certbot:/var/www/certbot
       - ./data/secrets/letsencrypt:/etc/letsencrypt
     network_mode: host
-    # ports:
-      # - "80:80"
-      # - "443:443"
-      # - "443:443/udp"
   
   certbot:
     image: certbot/certbot
@@ -40,6 +37,8 @@ services:
       - ./data/sql:/data/sql
     ports:
       - "127.0.0.1:8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 secrets:
   admin_password:
     file: ./admin_password.txt

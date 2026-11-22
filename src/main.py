@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 
 from src.db import create_db_and_tables, db_cleanup_task, file_cleanup_task
-from src.router import cleanup_router, disk_router, file_router
+from src.router import ai_router, cleanup_router, disk_router, file_router
 
 load_dotenv()
 file_cleanup_hour: int = int(os.getenv("FILE_CLEANUP_HOUR", "1"))
@@ -45,3 +45,4 @@ app = FastAPI(title="youtube-download-app", lifespan=lifespan)
 app.include_router(file_router)
 app.include_router(disk_router)
 app.include_router(cleanup_router)
+app.include_router(ai_router)

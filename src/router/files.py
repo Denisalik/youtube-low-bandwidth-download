@@ -2,7 +2,7 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException
 from sqlmodel import col, select
 
 from src.db import SessionDep, download_file, file_delete_by_id
-from src.entity.file import CreateFile, File
+from src.entity.file import CreateFile, File, FileState
 
 router = APIRouter(
     prefix="/api/files",
@@ -47,7 +47,7 @@ def download_file_in_format(
         raise HTTPException(status_code=404, detail="File not found")
     if not CreateFile.is_valid_format(format):
         raise HTTPException(status_code=400, detail="format can only be: 360, 720 or audio")
-    file.state = "start"
+    file.state = FileState.start
     session.add(file)
     session.commit()
     background.add_task(download_file, file_id, format)

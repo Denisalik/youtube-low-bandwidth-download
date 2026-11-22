@@ -9,6 +9,7 @@ class FileState(StrEnum):
     get = "get"
     start = "start"
     end = "end"
+    end_text = "end_text"
     error = "error"
     deleted = "deleted"
 
@@ -24,6 +25,8 @@ class FileBase(SQLModel):
     name: str | None = Field(default=None)
     size: int | None = Field(default=None)  # in bytes
     duration: str | None = Field(default=None)  # in youtube format e.g. 8:22 or 3:02:01
+
+    text_transcription_file: str | None = Field(default=None)
 
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     updated_at: datetime = Field(
@@ -43,7 +46,7 @@ class FileBase(SQLModel):
 
 class CreateFile(FileBase):
     @staticmethod
-    def is_valid_format(value: str) -> bool:
+    def is_valid_format(value: str | None) -> bool:
         return value in ["audio", "720", "360"]
 
     @staticmethod

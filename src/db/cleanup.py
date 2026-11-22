@@ -37,6 +37,7 @@ def file_cleanup_task():
     with Session(engine) as session:
         statement = select(File).where(
             (File.state == FileState.end)
+            | (File.state == FileState.end_text)
             | (File.state == FileState.error)
             | (File.state == FileState.start)
         )
