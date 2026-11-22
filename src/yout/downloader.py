@@ -17,7 +17,12 @@ def download(file: File):
     logger.info("downloading file with format:%s url:%s", format, link)
     home_directory_path = "/data/files/"
     outtmpl = f"{home_directory_path}{file.id}-" + "%(title)s.%(ext)s"
-    ydl_opts: yt_dlp._Params = {"quiet": True, "no_warnings": True, "format": format, "outtmpl": outtmpl}
+    ydl_opts: yt_dlp._Params = {
+        "quiet": True,
+        "no_warnings": True,
+        "format": format,
+        "outtmpl": outtmpl,
+    }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             pp = StorageInfoPP(file=file, downloader=ydl)

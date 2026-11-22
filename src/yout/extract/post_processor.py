@@ -22,7 +22,8 @@ class StorageInfoPP(PostProcessor):
         filename = information.get("filename")
         if filename:
             self.file.file_name = filename.removeprefix("/data/files/")
-            self.file.size = information.get("filesize") or information.get("filesize_approx") or os.path.getsize(filename)
+            size = information.get("filesize") or information.get("filesize_approx")
+            self.file.size = size or os.path.getsize(filename)
 
         # downloaded format instead of provided one
         format = information.get("format")
