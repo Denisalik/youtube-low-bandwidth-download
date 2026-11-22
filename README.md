@@ -3,7 +3,7 @@
 Simple Web application that downloads youtube videos and shares with client them.
 
 If you downloaded audio, you can extract text using eleven labs and download text in txt format aswell.
-## Installation
+## Preparation
 On the host create folders for volumes and add permissions for volume
 ```sh
 mkdir data && cd data && mkdir files && mkdir sql && mkdir secrets && cd secrets && mkdir certbot && mkdir letsencrypt && cd ../..
@@ -14,6 +14,15 @@ Create password for basic auth.
 ```sh
 echo "your-secret-password" > ./admin_password.txt
 ```
+Create `.env` file with all tokens.
+```sh
+cp .env.example .env
+#put ELEVEN_LABS_API_KEY and OPEN_ROUTER_API_KEY
+vi .env
+#or
+nano .env
+```
+## Installation
 Build containers and run them(you need to have docker buildx)
 ```sh
 docker compose build
@@ -23,6 +32,7 @@ Or if you want to change secrets(admin_password.txt)
 ```sh
 docker compose build --no-cache
 ```
+## SQL+files Deletion
 If you need to have delete all sql+files
 ```sh
 rm ./data/sql/database.db
